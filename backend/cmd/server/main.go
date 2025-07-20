@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/2oofine/PaLuto/backend/internal/database"
+	"github.com/2oofine/PaLuto/backend/internal/routes"
 	"github.com/2oofine/PaLuto/backend/pkg/config"
 	"github.com/go-chi/chi/v5"
 )
@@ -15,9 +16,7 @@ func main() {
 	database.Init()
 
 	r := chi.NewRouter()
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Welcome to PaLuto!"))
-	})
+	r.Mount("/users", routes.UserRoutes(database.DB))
 
 	port := os.Getenv("PORT")
 	if port == "" {

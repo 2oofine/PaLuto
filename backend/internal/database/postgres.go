@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/2oofine/PaLuto/backend/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -19,6 +20,12 @@ func Init() {
 
 	if err != nil {
 		log.Fatal("Failed to connect to the database: ", err)
+	}
+
+	// ✅ Auto-migrate tables
+	err = db.AutoMigrate(&models.User{})
+	if err != nil {
+		log.Fatal("Failed to run migrations:", err)
 	}
 
 	DB = db
